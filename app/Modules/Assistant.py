@@ -7,6 +7,8 @@ from datetime import datetime
 from arrays import us_cities, us_states
 import requests
 import time
+from GoogleNews import GoogleNews
+
 
 input = sr.Recognizer()
 engine = pyttsx3.init()
@@ -32,6 +34,7 @@ def fetch_microphone_input(i):
         data=""
         try:
             data=input.recognize_google(audio) 
+            data = data.lower()
             respond(data)
         except sr.UnknownValueError:
             return "Sorry I did not hear your question, Please repeat again."
@@ -66,6 +69,20 @@ def respond(text):
             sped.download_upload()
     elif 'what time' in data or "the time" in data:
         talk(datetime.today().strftime("%I:%M %p"))
+    elif 'google news' in data or 'news' in data:
+        data_arr = data.split(' ')
+        googlenews = GoogleNews(lang='en', period='7d')
+        for i, e in enumerate(data_arr):
+            if e == 'news':
+                if data_arr[i - 1] != 'google': 
+                    googlenews.search(str(data_arr[i - 1]))
+                else:
+                    googlenews.search(str(data_arr[i + 1]))
+        googlenews.get_page(1)
+        r = googlenews.page_at(1)
+        talk(r[0]['title'])
+        talk('Posted: ' + r[0]['date'])
+        talk('Description: ' + r[0]['desc'])
     else:
         url = 'http://localhost:5000/'
         myobj = {'text': f'{data}'}
