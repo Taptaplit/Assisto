@@ -88,7 +88,7 @@ class Main(tk.Frame):
         image1 = Image.open("C:/Users/home/OneDrive/Desktop/Coding/Hackathon/NHacks VI/app/Modules/icon.png")
         bgimage = Image.open("C:/Users/home/OneDrive/Desktop/Coding/Hackathon/NHacks VI/app/Modules/icon.png")
         
-        
+        # self['bg'] = 'blue'
         
         self.btnText = tk.StringVar()
         self.btnText.set("Enable Microphone")
@@ -98,9 +98,6 @@ class Main(tk.Frame):
         self.listenText.set("No Audio Detected")
         Font_tuple = ("Comic Sans MS", 16, "bold")
         
-        background_image = ImageTk.PhotoImage(bgimage.resize((500, 400), Image.ANTIALIAS))
-        background_label = Label(self, image=background_image)
-        background_label.place(x=0, y=0, relwidth=1, relheight=1)    
         heading1 = tk.Message(self, width=300, text = 'Assisto', font=Font_tuple)
         self.pre_entry_text = ttk.Label(self, textvariable=self.listenText)
         btn = tk.Button(self, textvariable=self.btnText, borderwidth = '0', bg='#03a5fc', relief=FLAT, activebackground="#04e000", command = lambda: threading.Thread(target=self.setBtnText).start())
